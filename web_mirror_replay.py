@@ -82,7 +82,8 @@ if __name__ == '__main__':
         server_names[i].cmdPrint('apache2ctl -f /etc/apache2/apache2.conf ')
         server_names[i].waitOutput()
       elif cc == 'quic':
-        server_names[i].cmdPrint('nohup ' + quic_path + ' --quic_in_memory_cache_dir0=' + quic_path + '/' + site_to_fetch + ' --port=80 --ip=' + ip_addr[i] + ' > /tmp/quic_server' + str(i)+'.stdout 2> /tmp/quic_server' + str(i) +'.stderr &')
+        quic_folder = site_to_fetch.split('http://')[1]
+        server_names[i].cmdPrint('nohup ' + quic_path + '/quic_server --quic_in_memory_cache_dir0=' + quic_path + '/' + quic_folder + ' --port=80 --ip=' + ip_addr[i] + ' > /tmp/quic_server' + str(i)+'.stdout 2> /tmp/quic_server' + str(i) +'.stderr &')
       else:
         exit(5) 
       server_names[i].waitOutput()        
@@ -97,7 +98,7 @@ if __name__ == '__main__':
         client.cmdPrint(phantomjs+'/bin/phantomjs '+ phantomjs + "/examples/loadspeed.js " +site_to_fetch);
         client.cmdPrint(phantomjs+'/bin/phantomjs '+ phantomjs + "/examples/loadspeed.js " +site_to_fetch);
       elif browser == 'chrome':
-        client.cmdPrint('su vagrant -c"python load_google.py '+ quic_path+'/chrome ' + site_to_fetch+ ' ' + cc+' "')
+        client.cmdPrint('su vagrant -c"PATH=$PATH:/home/vagrant/chrome-checkout-clean/src/out/Release:/home/vagrant/depot_tools CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox python load_google.py '+ quic_path+'/chrome ' + site_to_fetch+ ' ' + cc+'"')
       else:
         exit(5)
       client.waitOutput()
