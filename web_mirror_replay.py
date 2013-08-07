@@ -103,7 +103,8 @@ if __name__ == '__main__':
         exit(5)
       client.waitOutput()
     elif cc == 'quic':
-      client.cmdPrint('su vagrant -c"python load_google.py"')
+      client.cmdPrint('su vagrant -c"PATH=$PATH:/home/vagrant/chrome-checkout-clean/src/out/Release:/home/vagrant/depot_tools CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox python load_google.py '+ quic_path+'/chrome ' + site_to_fetch+ ' ' + cc+'"')
+      #client.cmdPrint('su vagrant -c"python load_google.py "')
     else:
       exit(5)
     CLI( net )
