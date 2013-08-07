@@ -42,7 +42,8 @@ if [ $cc == "cubic" ]; then
   #modify apache root folder
   sed s/"DocumentRoot \/var\/www"/"DocumentRoot \/var\/www\/$mirror_root_folder"/g default.backup > /etc/apache2/sites-available/default
 elif [ $cc == "quic" ]; then
-  scp -r $mirror_folder_network_path $quic_path/$site
+  mirror_root_folder=`echo $site | cut -f 3 -d '/'`
+  scp -r $mirror_folder_network_path $quic_path/$mirror_root_folder
 else
   exit 5;
 fi
